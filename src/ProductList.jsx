@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart } from './CartSlice'
+import { addItem } from './CartSlice'
 import './ProductList.css'
 
 const categories = [
@@ -74,7 +74,7 @@ function ProductList() {
                     <button
                       className="add-button"
                       disabled={alreadyAdded}
-                      onClick={() => dispatch(addToCart(plant))}
+                      onClick={() => dispatch(addItem(plant))}
                     >
                       {alreadyAdded ? 'Added to Cart' : 'Add to Cart'}
                     </button>

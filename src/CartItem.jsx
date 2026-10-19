@@ -1,13 +1,13 @@
 
 import { useDispatch } from 'react-redux'
-import {
-  increaseQuantity,
-  decreaseQuantity,
-  removeFromCart,
-} from './CartSlice'
+import { updateQuantity, removeItem } from './CartSlice'
 
 function CartItem({ plant }) {
   const dispatch = useDispatch()
+
+  const handleQuantityChange = (quantity) => {
+    dispatch(updateQuantity({ id: plant.id, quantity }))
+  }
 
   return (
     <div className="cart-item">
@@ -19,15 +19,19 @@ function CartItem({ plant }) {
 
       <div className="cart-item-details">
         <h3>{plant.name}</h3>
-        <p>Unit price: ₦{plant.price.toLocaleString()}</p>
+
+        <p>
+          Unit price: ₦{plant.price.toLocaleString('en-NG')}
+        </p>
+
         <p>
           Subtotal: ₦
-          {(plant.price * plant.quantity).toLocaleString()}
+          {(plant.price * plant.quantity).toLocaleString('en-NG')}
         </p>
 
         <div className="quantity-controls">
           <button
-            onClick={() => dispatch(decreaseQuantity(plant.id))}
+            onClick={() => handleQuantityChange(plant.quantity - 1)}
             aria-label={`Decrease ${plant.name} quantity`}
           >
             −
@@ -36,7 +40,7 @@ function CartItem({ plant }) {
           <span>{plant.quantity}</span>
 
           <button
-            onClick={() => dispatch(increaseQuantity(plant.id))}
+            onClick={() => handleQuantityChange(plant.quantity + 1)}
             aria-label={`Increase ${plant.name} quantity`}
           >
             +
@@ -45,7 +49,7 @@ function CartItem({ plant }) {
 
         <button
           className="remove-button"
-          onClick={() => dispatch(removeFromCart(plant.id))}
+          onClick={() => dispatch(removeItem(plant.id))}
         >
           Remove
         </button>
